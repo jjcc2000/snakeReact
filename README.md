@@ -1,1 +1,1 @@
-Snake Game with React.
+Snake Game with React andd Vanilla Css Animations.
