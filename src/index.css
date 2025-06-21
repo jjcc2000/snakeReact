@@ -104,6 +104,35 @@ h1 {
   background: gold; /* optional: color flash */
 }
 
+.snake-head {
+  position: absolute;
+  width: 2%;
+  height: 2%;
+  background: limegreen;
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.head-eaten {
+  animation: mushroomBounce 0.3s ease;
+  background: gold; /* optional: flash gold when eating */
+}
+
+@keyframes mushroomBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.8);
+  } /* big bounce */
+  70% {
+    transform: scale(0.9);
+  } /* squash back */
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes gameOverPop {
   0% {
     transform: translateX(-50%) scale(0.5);

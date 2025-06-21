@@ -77,7 +77,8 @@ function App() {
       setFood(getRandomCoordinates(newSnake));
       setScore((prev) => prev + 1);
       setHeadEaten(true);
-      setTimeout(() => false, 200); // Reset effect
+      setTimeout(() => setHeadEaten(false), 200);
+
       // Do NOT remove tail → grows
     } else {
       // Normal move: remove tail
