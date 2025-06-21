@@ -12,7 +12,6 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [speed] = useState(200); // constant speed
   const [score, setScore] = useState(0);
-  const [scoreBump, setScoreBump] = useState(false);
   const [headEaten, setHeadEaten] = useState(false);
 
   // Handle key press
@@ -78,7 +77,7 @@ function App() {
       setFood(getRandomCoordinates(newSnake));
       setScore((prev) => prev + 1);
       setHeadEaten(true);
-      setTimeout(() => setHeadEaten(false), 200); // Reset effect
+      setTimeout(() => false, 200); // Reset effect
       // Do NOT remove tail → grows
     } else {
       // Normal move: remove tail
@@ -96,21 +95,18 @@ function App() {
 
   return (
     <div className="container">
-      {!gameOver && score > 0 && (
-        <div className="score-container">
-          <div className={`score ${scoreBump ? "bump" : ""}`}>
-            Score: {score}
-          </div>
-        </div>
-      )}
+      <div className={`score`}>Score: {score}</div>
+
       <div className="game-area">
         {snake.map((dot, i) => (
           <div
             key={i}
             className={
               i === 0
-                ? `snake-head ${headEaten ? "head-eaten" : ""}`
-                : "snake-dot"
+                ? `snake-head ${headEaten ? "head-eaten" : ""} ${
+                    gameOver ? "dead-snake-head" : ""
+                  }`
+                : `snake-dot ${gameOver ? "dead-snake-dot" : ""}`
             }
             style={{ left: `${dot[0]}%`, top: `${dot[1]}%` }}
           ></div>
@@ -124,7 +120,7 @@ function App() {
         </div>
       </div>
 
-      {gameOver && <h1>GAME OVER</h1>}
+      {gameOver && <h1 className="game-over">GAME OVER</h1>}
     </div>
   );
 }

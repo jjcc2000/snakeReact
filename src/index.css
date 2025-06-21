@@ -14,9 +14,12 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
-  background-color: #0a192f; /* match body */
+  background: #0a192f;
+  position: relative; /* make it a positioning context */
+  padding: 40px 0;
+  box-sizing: border-box;
 }
 
 .game-area {
@@ -36,10 +39,6 @@ h1 {
   height: 2%;
 }
 
-.snake-dot {
-  background: green;
-}
-
 .food-dot {
   position: absolute;
   width: 2%;
@@ -51,30 +50,53 @@ h1 {
 }
 
 .score {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 24px;
   color: #fff;
-  margin-bottom: 20px;
   transition: transform 0.2s ease;
 }
 
 .score.bump {
-  transform: scale(1.3);
+  transform: translateX(-50%) scale(1.3);
 }
+
+.game-over {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  color: black; /* ✅ black text */
+  animation: gameOverPop 0.8s ease forwards;
+  font-weight: bold;
+}
+
 .snake-dot {
   position: absolute;
   width: 2%;
   height: 2%;
   background: green;
   border-radius: 50%;
+  transition: background 0.2s ease;
+}
+.dead-snake-dot {
+  background: black; /* turns black when dead */
 }
 
 .snake-head {
   position: absolute;
   width: 2%;
   height: 2%;
-  background: limegreen; /* brighter head */
+  background: limegreen; /* bright head when alive */
   border-radius: 50%;
-  transition: transform 0.2s ease;
+  transition: background 0.2s ease;
+}
+
+.dead-snake-head {
+  background: black; /* dead head */
 }
 
 .snake-head.head-eaten {
@@ -82,16 +104,19 @@ h1 {
   background: gold; /* optional: color flash */
 }
 
-@keyframes pop {
+@keyframes gameOverPop {
   0% {
-    transform: scale(0.8);
+    transform: translateX(-50%) scale(0.5);
     opacity: 0;
   }
   50% {
-    transform: scale(1.2);
+    transform: translateX(-50%) scale(1.2);
     opacity: 1;
   }
+  70% {
+    transform: translateX(-50%) scale(0.95);
+  }
   100% {
-    transform: scale(1);
+    transform: translateX(-50%) scale(1);
   }
 }
