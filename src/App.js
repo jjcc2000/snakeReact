@@ -12,6 +12,9 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [speed] = useState(200); // constant speed
   const [score, setScore] = useState(0);
+  const [scoreBump, setScoreBump] = useState(false);
+  const [headEaten, setHeadEaten] = useState(false);
+
   // Handle key press
   useEffect(() => {
     const handleKeydown = (e) => {
@@ -73,7 +76,9 @@ function App() {
     // Check if ate food
     if (newHead[0] === food[0] && newHead[1] === food[1]) {
       setFood(getRandomCoordinates(newSnake));
-      setScore(score + 1);
+      setScore((prev) => prev + 1);
+      setHeadEaten(true);
+      setTimeout(() => setHeadEaten(false), 200); // Reset effect
       // Do NOT remove tail → grows
     } else {
       // Normal move: remove tail
@@ -91,14 +96,26 @@ function App() {
 
   return (
     <div className="container">
+      {!gameOver && score > 0 && (
+        <div className="score-container">
+          <div className={`score ${scoreBump ? "bump" : ""}`}>
+            Score: {score}
+          </div>
+        </div>
+      )}
       <div className="game-area">
         {snake.map((dot, i) => (
           <div
-            className="snake-dot"
             key={i}
+            className={
+              i === 0
+                ? `snake-head ${headEaten ? "head-eaten" : ""}`
+                : "snake-dot"
+            }
             style={{ left: `${dot[0]}%`, top: `${dot[1]}%` }}
           ></div>
         ))}
+
         <div
           className="food-dot"
           style={{ left: `${food[0]}%`, top: `${food[1]}%` }}
@@ -106,11 +123,7 @@ function App() {
           🍎
         </div>
       </div>
-      {!gameOver && score > 0 && (
-        <div className="score">
-          <h1> Score {score}</h1>
-        </div>
-      )}
+
       {gameOver && <h1>GAME OVER</h1>}
     </div>
   );
